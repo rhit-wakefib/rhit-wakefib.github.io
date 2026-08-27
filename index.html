@@ -1,34 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Site</title>
-    <style>
-        body {
-            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            text-align: center;
-            padding-top: 10vh;
-            color: #333;
-            background-color: #f9f9f9;
-            margin: 0;
-        }
-        h1 { font-size: 2.5rem; }
-        p { color: #666; }
-        .profile-img {
-            max-width: 200px;
-            border-radius: 50%;
-            margin-top: 20px;
-        }
-    </style>
+  <!-- ============================================================
+       PERSONAL SITE — Braden Wakefield
+       Single file. Dark mode only, simple blog layout.
+       Contact = LinkedIn and Handshake only (fill in the two
+       TODO hrefs in the contact section).
+       ============================================================ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Braden Wakefield · Computer Engineering</title>
+  <meta name="description" content="Computer engineering student. Embedded systems, digital design, and device modeling with real hardware and real photos. Dean's List, all six quarters.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #141414;
+      --bg-soft: #1b1b1b;
+      --text: #e9e6e1;
+      --body: #c9c5be;
+      --muted: #9c9c9c;
+      --line: #333333;
+      --accent: #f2c94c;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.7 Georgia, "Times New Roman", serif;
+    }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0; color: var(--text); font-weight: bold; }
+    p { margin: 0.7em 0; }
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--accent); text-decoration: none; }
+
+    .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(20, 20, 20, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: 780px; margin: 0 auto; padding: 13px 24px;
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+    }
+    .brand {
+      font-family: "Fredoka", system-ui, sans-serif;
+      font-weight: 600; font-size: 1.15rem; letter-spacing: 0.01em;
+      color: #f4f1ea;
+      text-shadow: 0.05em 0.05em 0 #000;
+    }
+    .brand .dot { color: var(--accent); }
+    .brand:hover { color: #f4f1ea; }
+    .nav-links a {
+      color: var(--muted); margin-left: 20px; font-size: 0.95rem;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 76px 0 48px; }
+    .hero-name {
+      font-family: "Fredoka", system-ui, sans-serif;
+      font-weight: 600;
+      font-size: clamp(2.6rem, 7vw, 4rem);
+      letter-spacing: 0.01em;
+      color: #f4f1ea;
+      text-shadow: 0.05em 0.05em 0 #000;
+      margin: 0 0 14px;
+    }
+    .hero-name .dot { color: var(--accent); text-shadow: 0.05em 0.05em 0 rgba(0, 0, 0, 0.55); }
+    .tagline { font-size: 1.15rem; color: var(--body); max-width: 620px; line-height: 1.65; }
+    .hero-facts { color: var(--muted); font-size: 0.95rem; margin-top: 14px; }
+
+    /* ---------- Sections ---------- */
+    section { padding: 54px 0; border-top: 1px solid var(--line); scroll-margin-top: 70px; }
+    section h2 { font-size: 1.65rem; margin-bottom: 10px; }
+    .section-intro { color: var(--body); max-width: 660px; margin-bottom: 30px; }
+
+    /* ---------- Table of contents ---------- */
+    .toc { list-style: none; margin: 22px 0 0; padding: 0; }
+    .toc li { border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+    .toc li:last-child { border-bottom: none; }
+    .toc-line { display: flex; gap: 16px; align-items: baseline; padding: 11px 2px; }
+    .toc-num { color: var(--accent); font-weight: bold; min-width: 2ch; }
+    .toc-name { font-weight: bold; }
+    .toc-desc { color: var(--muted); }
+    .toc-line a { color: var(--text); }
+    .toc-line a:hover .toc-name { color: var(--accent); }
+    .toc-line.active .toc-name { color: var(--accent); }
+
+    /* ---------- About ---------- */
+    .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; }
+    .about-grid p { color: var(--body); }
+    .facts h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .fact-row { padding: 5px 0; color: var(--muted); font-size: 0.95rem; }
+    .fact-row .k { color: var(--muted); }
+    .fact-row .v { color: var(--text); font-weight: bold; }
+    .tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 0.8rem; color: var(--body);
+      border: 1px solid #555; border-radius: 999px;
+      padding: 2px 13px; background: transparent;
+    }
+
+    /* ---------- Projects ---------- */
+    .project { margin-bottom: 46px; }
+    .project:last-of-type { margin-bottom: 0; }
+    .project h3 { font-size: 1.35rem; }
+    .meta { color: var(--accent); font-size: 0.95rem; margin: 4px 0 10px; }
+    .desc { color: var(--body); max-width: 680px; }
+
+    .photo-grid {
+      margin-top: 22px; display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px;
+    }
+    figure.photo {
+      margin: 0; background: var(--bg-soft); border: 1px solid var(--line);
+      border-radius: 6px; overflow: hidden;
+    }
+    figure.photo:hover { border-color: #5a5a5a; }
+    figure.photo img {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; cursor: zoom-in;
+    }
+    figure.photo figcaption { padding: 10px 12px; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    /* ---------- Courses ---------- */
+    .term-head { font-size: 1.45rem; margin: 38px 0 4px; }
+    .term-block:first-of-type .term-head { margin-top: 14px; }
+    .term-head .count { font-size: 0.9rem; color: var(--muted); font-weight: normal; margin-left: 10px; }
+    .course-list { list-style: none; margin: 0; padding: 0; }
+    .course-list li {
+      padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 0.95rem; color: var(--muted); line-height: 1.6;
+    }
+    .course-list li:last-child { border-bottom: none; }
+    .course-list .cc { color: var(--accent); font-weight: bold; margin-right: 8px; }
+    .course-list .cn { color: var(--text); font-weight: bold; }
+
+    /* ---------- Experience / Activities ---------- */
+    .exp-sub { font-size: 1.15rem; margin: 30px 0 4px; }
+    .exp-sub:first-of-type { margin-top: 14px; }
+    .exp-row { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .exp-row .role { font-weight: bold; }
+    .exp-row .org { color: var(--accent); font-size: 0.92rem; margin-left: 8px; }
+    .exp-row .when { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+    .exp-row ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); font-size: 0.95rem; }
+    .activities { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin-top: 6px; }
+    .act .a-name { font-weight: bold; color: var(--text); }
+    .act .a-when { color: var(--muted); font-size: 0.85rem; }
+
+    /* ---------- Hobbies ---------- */
+    .hobby-note { color: var(--muted); font-style: italic; }
+
+    /* ---------- Contact ---------- */
+    .contact-card { text-align: center; }
+    .contact-card p { color: var(--body); max-width: 520px; margin: 0 auto 8px; }
+    .contact-links { margin-top: 20px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .link-slot {
+      display: inline-block; padding: 7px 22px; border-radius: 999px;
+      border: 1px solid var(--accent); color: var(--accent); font-weight: bold; font-size: 0.95rem;
+    }
+    .link-slot:hover { background: var(--accent); color: #141414; }
+    .link-slot.filled { border-style: solid; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 44px; color: var(--muted); font-size: 0.85rem;
+    }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--accent); }
+
+    /* ---------- Lightbox ---------- */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.94);
+      display: flex; align-items: center; justify-content: center; padding: 40px;
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox figure { margin: 0; max-width: 100%; text-align: center; }
+    .lightbox img {
+      max-width: 100%; max-height: 82vh; border-radius: 6px; border: 1px solid var(--line);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    }
+    .lightbox figcaption { color: var(--muted); margin-top: 16px; font-size: 0.95rem; }
+    .lb-btn {
+      position: absolute; background: transparent; color: var(--text);
+      border: 1px solid var(--line); border-radius: 50%;
+      width: 46px; height: 46px; font-size: 1.5rem; line-height: 1; cursor: pointer;
+    }
+    .lb-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lb-close { top: 22px; right: 22px; }
+    .lb-prev { left: 22px; top: 50%; transform: translateY(-50%); }
+    .lb-next { right: 22px; top: 50%; transform: translateY(-50%); }
+
+    /* ---------- Small screens ---------- */
+    @media (max-width: 720px) {
+      .about-grid, .activities { grid-template-columns: 1fr; }
+      .hero { padding: 54px 0 36px; }
+      .nav-links a { margin-left: 14px; font-size: 0.88rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
 </head>
-<body>
-    <h1>Hello World</h1>
-    <p>Welcome to my new website hosted on GitHub Pages.</p>
-    <img src="test-pic.png" alt="LEDs" class="profile-img">
-        <img src="circuit-overview.png" alt="LEDs" class="profile-img">
-        <img src="live-circuit.png" alt="LEDs" class="profile-img">
-        <img src="displayed-signal.png" alt="LEDs" class="profile-img">
-        <img src="written-code.png" alt="LEDs" class="profile-img">
+<body id="top">
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="#top">braden wakefield<span class="dot">.</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#courses">Courses</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="wrap">
+      <h1 class="hero-name">Braden Wakefield<span class="dot">.</span></h1>
+      <p class="tagline">Computer engineering student. I design circuits, write firmware in C and assembly, and use math and physics to manipulate the world and build neat things.</p>
+      <p class="hero-facts">Computer engineering &middot; graduating May 2028 &middot; Dean's List, all six quarters</p>
+    </div>
+  </header>
+
+  <!-- ================= TABLE OF CONTENTS ================= -->
+  <section id="contents">
+    <div class="wrap">
+      <h2>Table of contents</h2>
+      <p class="section-intro">A quick overview of the page. Pick a section, or scroll through it all.</p>
+      <ol class="toc" aria-label="Table of contents">
+        <li><span class="toc-line" id="toc-about"><a href="#about"><span class="toc-num">01</span> <span class="toc-name">About</span></a> <span class="toc-desc">&mdash; who I am and what I do</span></span></li>
+        <li><span class="toc-line" id="toc-projects"><a href="#projects"><span class="toc-num">02</span> <span class="toc-name">Projects</span></a> <span class="toc-desc">&mdash; a small sample of fun course projects</span></span></li>
+        <li><span class="toc-line" id="toc-courses"><a href="#courses"><span class="toc-num">03</span> <span class="toc-name">Courses</span></a> <span class="toc-desc">&mdash; every course I've taken, by term</span></span></li>
+        <li><span class="toc-line" id="toc-experience"><a href="#experience"><span class="toc-num">04</span> <span class="toc-name">Experience</span></a> <span class="toc-desc">&mdash; internship and activities</span></span></li>
+        <li><span class="toc-line" id="toc-hobbies"><a href="#hobbies"><span class="toc-num">05</span> <span class="toc-name">Hobbies</span></a> <span class="toc-desc">&mdash; coming soon</span></span></li>
+        <li><span class="toc-line" id="toc-contact"><a href="#contact"><span class="toc-num">06</span> <span class="toc-name">Contact</span></a> <span class="toc-desc">&mdash; LinkedIn and Handshake</span></span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="wrap">
+      <h2>About</h2>
+      <div class="about-grid">
+        <div>
+          <p>I'm a computer engineering student graduating in May 2028. My focus is the hardware side of computing: I've programmed microcontrollers in C and assembly, built logic-gate circuits, described digital logic in Verilog, and modeled, simulated, and tested circuits with diodes, resistors, transistors, capacitors, and inductors. I've also done professional work: C++ socket programming and networking tasks at my internship.</p>
+          <p>I've genuinely loved what I've done in every course so far, and I like to stay versatile. I don't want to be boxed into one specialty, so this site shows a range: embedded systems, digital design, analog circuits, software, and the math and physics underneath all of it.</p>
+          <p>I like work that ends with something I can point to: a board that runs, a signal on a scope, a simulation that matches the math.</p>
+          <div class="tags">
+            <span class="tag">C</span>
+            <span class="tag">C++</span>
+            <span class="tag">Assembly</span>
+            <span class="tag">Verilog</span>
+            <span class="tag">Python</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">Java</span>
+            <span class="tag">Bash</span>
+            <span class="tag">Vim</span>
+            <span class="tag">Linux</span>
+            <span class="tag">XML</span>
+            <span class="tag">GitHub</span>
+          </div>
+          <div class="tags" style="margin-top:10px">
+            <span class="tag">Transistors</span>
+            <span class="tag">Diodes</span>
+            <span class="tag">Soldering</span>
+            <span class="tag">Oscilloscope</span>
+            <span class="tag">CAD</span>
+            <span class="tag">3D Printing</span>
+          </div>
+        </div>
+        <div class="facts">
+          <h3>At a glance</h3>
+          <div class="fact-row"><span class="k">Major: </span><span class="v">Computer Engineering</span></div>
+          <div class="fact-row"><span class="k">Graduating: </span><span class="v">May 2028</span></div>
+          <div class="fact-row"><span class="k">Honors: </span><span class="v">Dean's List, all six quarters</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <p class="section-intro">A small sample of some of the fun projects I've gotten into across my courses. I picked these ones because they're easy to see, not just math on a piece of paper. The course list below shows the range of what I've been doing, and I'm happy to show more of it to anyone who asks. Click any photo to see it full size.</p>
+
+      <!-- ECE 230 -->
+      <div class="project">
+        <h3>ECE 230 &mdash; Intro to Embedded Systems</h3>
+        <p class="meta">Winter 2026 &middot; Microcontroller-controlled IR and LED system</p>
+        <p class="desc">Programmed a PIC18F56Q24 microcontroller in C and assembly to drive an IR remote and LEDs from ADC inputs, timers, and PWM signals. The term covered memory, storage, instruction set architecture, interrupts, and power management.</p>
+        <div class="tags">
+          <span class="tag">PIC18F56Q24</span>
+          <span class="tag">C</span>
+          <span class="tag">Assembly</span>
+          <span class="tag">PWM</span>
+          <span class="tag">ADC</span>
+          <span class="tag">Interrupts</span>
+        </div>
+        <div class="photo-grid">
+          <figure class="photo">
+            <img src="pics/ece230_intro_to_embedded_systems/led-pic.png" alt="Microcontroller sending different voltage levels to LEDs based on an assembly program" loading="lazy">
+            <figcaption>Microcontroller sending different voltage levels to LEDs based on an assembly program.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece230_intro_to_embedded_systems/assembly.png" alt="Snippet of the assembly code for the blinking LED circuit" loading="lazy">
+            <figcaption>Snippet of the assembly code for the blinking LED circuit. Writes values to registers after a delay.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece230_intro_to_embedded_systems/circuit-overview.png" alt="Microcontroller hooked up to an oscilloscope and button input" loading="lazy">
+            <figcaption>Microcontroller hooked up to an oscilloscope and button input.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece230_intro_to_embedded_systems/live-circuit.png" alt="Microcontroller hooked up to an oscilloscope with the internal LED blinking on an interrupt timer" loading="lazy">
+            <figcaption>Microcontroller hooked up to an oscilloscope with the internal LED set to blink on an interrupt timer.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece230_intro_to_embedded_systems/displayed-signal.png" alt="IR signal after the button for the microcontroller is pressed" loading="lazy">
+            <figcaption>IR signal after the button for the microcontroller is pressed.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece230_intro_to_embedded_systems/written-code.png" alt="Snippet of the C code for the microcontroller project with the IR functionality" loading="lazy">
+            <figcaption>Snippet of the C code for the microcontroller project with the IR functionality.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ECE 233 -->
+      <div class="project">
+        <h3>ECE 233 &mdash; Intro to Digital Systems</h3>
+        <p class="meta">Fall 2025 &middot; From logic gates to a working datapath</p>
+        <p class="desc">Built digital logic up from individual gates: combinational and sequential circuits, flip-flops, finite state machines, and registers. Designed a game from logic gates, implemented parts in Verilog, and built out a processor control structure with a data path and control path.</p>
+        <div class="tags">
+          <span class="tag">Verilog</span>
+          <span class="tag">Digital logic</span>
+          <span class="tag">FSMs</span>
+          <span class="tag">Simulation</span>
+          <span class="tag">FPGA</span>
+        </div>
+        <div class="photo-grid">
+          <figure class="photo">
+            <img src="pics/ece233_intro_to_digital_systems/diff-enrst.png" alt="TODO" loading="lazy">
+            <figcaption>coming soon</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece233_intro_to_digital_systems/diff-enrst-sim.png" alt="TODO" loading="lazy">
+            <figcaption>coming soon</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece233_intro_to_digital_systems/moore-edge-det.png" alt="TODO" loading="lazy">
+            <figcaption>coming soon</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece233_intro_to_digital_systems/register.png" alt="TODO" loading="lazy">
+            <figcaption>coming soon</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece233_intro_to_digital_systems/shift-cell.png" alt="TODO" loading="lazy">
+            <figcaption>coming soon</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece233_intro_to_digital_systems/simple-verilog.png" alt="Verilog modules for a 4-bit BCD incrementer (inc1b, ten_detect, fix_bcd)" loading="lazy">
+            <figcaption>coming soon</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ECE 250 -->
+      <div class="project">
+        <h3>ECE 250 &mdash; Electronic Device Modeling</h3>
+        <p class="meta">Spring 2026 &middot; Modeling, simulating, and building analog circuits</p>
+        <p class="desc">Designed circuits with MOSFETs, BJTs, diodes, and capacitors, using transistors as amplifiers, switches, and logic gates. Covered the device physics of diodes and transistors, then modeled and simulated the circuits in PSpice before building them in the lab.</p>
+        <div class="tags">
+          <span class="tag">MOSFET</span>
+          <span class="tag">BJT</span>
+          <span class="tag">Diodes</span>
+          <span class="tag">PSpice</span>
+          <span class="tag">Small-signal</span>
+        </div>
+        <div class="photo-grid">
+          <figure class="photo">
+            <img src="pics/ece250-electronic-device-modeling/ac-analysis-nfet-calc.png" alt="Calculation of the amplifier gain for an NFET, with notes on what is going on in the circuit" loading="lazy">
+            <figcaption>Calculation of the amplifier gain for an NFET, with notes on what is going on in the circuit.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece250-electronic-device-modeling/gain-simulation.png" alt="PSpice simulation confirming the calculated gain for the NFET AC analysis" loading="lazy">
+            <figcaption>PSpice simulation confirming the calculated gain for the NFET AC analysis.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece250-electronic-device-modeling/pspice-circuit-sim.png" alt="PSpice simulated bias points of an NFET circuit" loading="lazy">
+            <figcaption>PSpice simulated bias points of an NFET circuit.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece250-electronic-device-modeling/device-physics-diode.png" alt="Homework page covering the device physics model of a p-n junction diode" loading="lazy">
+            <figcaption>Homework page covering the device physics model of a p-n junction diode.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece250-electronic-device-modeling/device-physics-nfet.png" alt="Device physics model of an n-type MOSFET" loading="lazy">
+            <figcaption>Device physics model of an n-type MOSFET.</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="pics/ece250-electronic-device-modeling/zerner-diode-analysis.png" alt="Nodal analysis of a Zener diode circuit" loading="lazy">
+            <figcaption>Nodal analysis of a Zener diode circuit.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COURSES ================= -->
+  <section id="courses">
+    <div class="wrap">
+      <h2>Courses</h2>
+      <p class="section-intro">Twenty-five courses across six terms, each summarized in one line.</p>
+
+      <div class="term-block">
+        <h3 class="term-head">Fall 2024 <span class="count">5 courses</span></h3>
+        <ul class="course-list">
+          <li><span class="cc">PH 111</span><span class="cn">Physics I</span> &mdash; Kinematics, Newton's laws, gravitation, electricity and magnetism, conservation of energy and momentum, with labs.</li>
+          <li><span class="cc">MA 111</span><span class="cn">Calculus I</span> &mdash; Limits, continuity, differentiation, and the Fundamental Theorem of Calculus.</li>
+          <li><span class="cc">ECE 160</span><span class="cn">Engineering Practice</span> &mdash; Intro to EE/CE: programming, microcontrollers, soldering, and circuit building, plus team projects and technical communication.</li>
+          <li><span class="cn">Foundations for University Success</span> &mdash; Campus resources and the transition to college: learning and study strategies.</li>
+          <li><span class="cc">HUM H190</span><span class="cn">First-Year Writing Seminar</span> &mdash; College-level writing and critical reading and thinking.</li>
+        </ul>
+      </div>
+
+      <div class="term-block">
+        <h3 class="term-head">Winter 2025 <span class="count">4 courses</span></h3>
+        <ul class="course-list">
+          <li><span class="cc">PH 112</span><span class="cn">Physics II</span> &mdash; Torque and angular momentum, oscillations, waves, electric fields and circuits, capacitance, with labs.</li>
+          <li><span class="cc">MA 112</span><span class="cn">Calculus II</span> &mdash; Techniques of integration, series and Taylor polynomials, and first-order differential equations.</li>
+          <li><span class="cc">CSSE 120</span><span class="cn">Intro to Software Development</span> &mdash; Procedural and object-oriented programming with an emphasis on problem solving.</li>
+          <li><span class="cc">PSYC S240</span><span class="cn">Psychology for a Better World</span> &mdash; The psychological barriers &mdash; short-sightedness, impulsivity, inconsistency &mdash; that limit the impact people have when helping others, and how to apply psychological science to overcome them.</li>
+        </ul>
+      </div>
+
+      <div class="term-block">
+        <h3 class="term-head">Spring 2025 <span class="count">4 courses</span></h3>
+        <ul class="course-list">
+          <li><span class="cc">PH 113</span><span class="cn">Physics III</span> &mdash; Magnetic fields, Faraday's law, inductance, electromagnetic waves, optics, and an introduction to relativity.</li>
+          <li><span class="cc">MA 113</span><span class="cn">Calculus III</span> &mdash; Multivariable calculus: partial derivatives, maxima/minima, multiple integrals, and coordinate systems.</li>
+          <li><span class="cc">ECE 180</span><span class="cn">Intro to Signal Processing</span> &mdash; Discrete-time signal processing for audio, images, and video: phasors, sampling, spectra, filters, in MATLAB.</li>
+          <li><span class="cc">ECE 203</span><span class="cn">DC Circuits</span> &mdash; Voltage, current, power, Ohm's law, R/L/C, op-amps, and circuit analysis (mesh, nodal, Th&eacute;venin, Norton), with labs.</li>
+        </ul>
+      </div>
+
+      <div class="term-block">
+        <h3 class="term-head">Fall 2025 <span class="count">4 courses</span></h3>
+        <ul class="course-list">
+          <li><span class="cc">MA 221</span><span class="cn">Matrix Algebra &amp; Diff Equations I</span> &mdash; First- and second-order differential equations, matrix algebra, eigenvalues and eigenvectors, complex arithmetic.</li>
+          <li><span class="cc">ECE 204</span><span class="cn">AC Circuits</span> &mdash; Phasors, sinusoidal steady-state, impedance, AC power, three-phase systems, and transformer models.</li>
+          <li><span class="cc">ECE 233</span><span class="cn">Intro to Digital Systems</span> &mdash; Number systems, logic gates, Boolean algebra, Karnaugh maps, combinational and sequential logic, FSMs, registers, and basic computer architecture.</li>
+          <li><span class="cc">CSSE 220</span><span class="cn">Object-Oriented Software Development</span> &mdash; Inheritance, interfaces, polymorphism, encapsulation, recursion, GUIs, data structures, and UML.</li>
+        </ul>
+      </div>
+
+      <div class="term-block">
+        <h3 class="term-head">Winter 2026 <span class="count">4 courses</span></h3>
+        <ul class="course-list">
+          <li><span class="cc">MA 222</span><span class="cn">Matrix Algebra &amp; Diff Equations II</span> &mdash; Laplace transforms, systems of ODEs by matrix methods, phase portraits, stability, and Fourier series.</li>
+          <li><span class="cc">ECE 230</span><span class="cn">Intro to Embedded Systems</span> &mdash; Sensors and actuators, microcontroller architecture, communication protocols, interrupts, and the C programming language, with a term.</li>
+          <li><span class="cc">ECE 205</span><span class="cn">Circuits and Systems</span> &mdash; First- and second-order circuits, Bode plots, impulse and step response, Laplace transforms, feedback, and modeling in MATLAB/Simulink.</li>
+          <li><span class="cc">ECON S151</span><span class="cn">Introduction to Microeconomics</span> &mdash; Market behavior of buyers and sellers: demand and supply, costs, competition, monopoly, efficiency, government intervention, and international trade.</li>
+        </ul>
+      </div>
+
+      <div class="term-block">
+        <h3 class="term-head">Spring 2026 <span class="count">4 courses</span></h3>
+        <ul class="course-list">
+          <li><span class="cc">MA 381</span><span class="cn">Probability</span> &mdash; Probability theory, discrete and continuous random variables, common distributions, and the Central Limit Theorem.</li>
+          <li><span class="cc">ECE 300</span><span class="cn">Continuous-Time Signals and Systems</span> &mdash; Fourier series and transforms, system response to periodic and aperiodic signals, filter design, and sampling.</li>
+          <li><span class="cc">ECE 250</span><span class="cn">Electronic Device Modeling</span> &mdash; Modeling, analysis, and simulation of circuits with semiconductor devices: large-signal, biasing, and small-signal models, switching circuits, and amplifiers.</li>
+          <li><span class="cc">CSSE 230</span><span class="cn">Data Structures &amp; Algorithm Analysis</span> &mdash; Lists, stacks, queues, trees, priority queues, hash tables, and graphs, with formal efficiency analysis and recursion.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section id="experience">
+    <div class="wrap">
+      <h2>Experience &amp; activities</h2>
+
+      <h3 class="exp-sub">Internship</h3>
+      <div class="exp-row">
+        <div><span class="role">R&amp;D Systems Engineering Intern</span><span class="org">GIRD Systems Inc</span></div>
+        <div class="when">June 2026 &ndash; August 2026</div>
+        <ul>
+          <li>High-performance, multi-threaded C++ socket programming</li>
+          <li>Worker and queue model for concurrent task handling</li>
+          <li>Worked with XML, XSD, and WSDL files</li>
+          <li>Implemented TCP and UDP client and server applications</li>
+        </ul>
+      </div>
+
+      <h3 class="exp-sub">Activities</h3>
+      <div class="activities">
+        <div class="act"><span class="a-name">Engineers for a Sustainable World Club</span><br><span class="a-when">2025</span></div>
+        <div class="act"><span class="a-name">Computer Security Club</span><br><span class="a-when">2024 &ndash; 2026</span></div>
+        <div class="act"><span class="a-name">Linux Users Group</span><br><span class="a-when">2025 &ndash; 2026</span></div>
+        <div class="act"><span class="a-name">Volunteer / community outreach</span><br><span class="a-when">2021 &ndash; 2024</span></div>
+        <div class="act"><span class="a-name">Varsity Lacrosse</span><br><span class="a-when">2020 &ndash; 2023 &middot; State Champions 2022, Runner-up 2023, Three Year Letterman</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOBBIES ================= -->
+  <section id="hobbies">
+    <div class="wrap">
+      <h2>Hobbies</h2>
+      <p class="hobby-note">Things I build and break outside the classroom. Photos coming soon.</p>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="wrap">
+      <h2>Get in touch</h2>
+      <div class="contact-card">
+        <p>The two links below are the fastest way to reach me. If you want a resume, a transcript, or a deeper look at any project above, ask and I'll send it over.</p>
+        <div class="contact-links">
+          <!-- TODO: Replace TODO_LINKEDIN with your real LinkedIn URL -->
+          <a class="link-slot" href="TODO_LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+          <!-- TODO: Replace TODO_HANDSHAKE with your real Handshake URL -->
+          <a class="link-slot" href="TODO_HANDSHAKE" target="_blank" rel="noopener">Handshake</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span>Built with plain HTML and CSS. No frameworks, no tracking.</span>
+      <a href="#top">back to top &uarr;</a>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lb-btn lb-close" id="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo">&#8249;</button>
+    <figure>
+      <img id="lb-img" src="" alt="">
+      <figcaption id="lb-cap"></figcaption>
+    </figure>
+    <button class="lb-btn lb-next" id="lb-next" aria-label="Next photo">&#8250;</button>
+  </div>
+
+  <script>
+    // Table of contents: highlight the section currently in view
+    const tocLines = {
+      about: document.getElementById('toc-about'),
+      projects: document.getElementById('toc-projects'),
+      courses: document.getElementById('toc-courses'),
+      experience: document.getElementById('toc-experience'),
+      hobbies: document.getElementById('toc-hobbies'),
+      contact: document.getElementById('toc-contact')
+    };
+    const sections = Object.keys(tocLines)
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    function spy() {
+      const pos = window.scrollY + 140;
+      let current = null;
+      for (const s of sections) {
+        if (s.offsetTop <= pos) current = s.id;
+      }
+      for (const id in tocLines) tocLines[id].classList.toggle('active', id === current);
+    }
+    window.addEventListener('scroll', spy, { passive: true });
+    spy();
+
+    // Lightbox: click any photo in a grid to view it full size
+    const photos = Array.from(document.querySelectorAll('.photo img'));
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCap = document.getElementById('lb-cap');
+    let idx = 0;
+
+    function show(n) {
+      idx = (n + photos.length) % photos.length;
+      const fig = photos[idx].closest('figure');
+      lbImg.src = photos[idx].src;
+      lbImg.alt = photos[idx].alt;
+      const cap = fig.querySelector('figcaption');
+      lbCap.textContent = cap ? cap.textContent : '';
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.hidden = true;
+      document.body.style.overflow = '';
+    }
+    photos.forEach((p, i) => p.addEventListener('click', () => show(i)));
+    document.getElementById('lb-close').addEventListener('click', close);
+    document.getElementById('lb-prev').addEventListener('click', () => show(idx - 1));
+    document.getElementById('lb-next').addEventListener('click', () => show(idx + 1));
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(idx - 1);
+      if (e.key === 'ArrowRight') show(idx + 1);
+    });
+  </script>
 </body>
 </html>
